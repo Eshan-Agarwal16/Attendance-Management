@@ -6,7 +6,7 @@ import webbrowser as wb
 global screen_width 
 
 #cbf3f0
-#2ec4b6
+#2ec4b6 check 1
 
 def github_link():
     wb.open("https://github.com/Eshan-Agarwal16/Attendance-Management")
