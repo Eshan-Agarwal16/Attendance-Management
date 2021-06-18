@@ -215,5 +215,5 @@ class Student:
 
 if __name__=="__main__":
   root=Tk()
-  obj=student(root)
+  obj=Student(root)
   root.mainloop()
