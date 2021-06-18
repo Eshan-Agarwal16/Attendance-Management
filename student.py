@@ -28,13 +28,6 @@ class student:
     left_frame=LabelFrame(main_frame,bd=0,relief=RIDGE,bg="#cbf3f0",text=" Student details ",font=("Berlin Sans FB",20))
     left_frame.place(x=20,y=15,width=700,height=600)
 
-    #right label fram 
-    right_frame=LabelFrame(main_frame,bd=0,relief=RIDGE,bg="#cbf3f0",text=" Student details ",font=("Berlin Sans FB",20))
-    right_frame.place(x=740,y=15,width=700,height=600)
-
-    #fodder
-    main_frame=Frame(background_frame, bg="#2ec4b6")
-    main_frame.place(x=0,y=730,width=screen_width,height=screen_height)
 
     #current corse
     current_course_frame=LabelFrame(left_frame,bd=0,relief=RIDGE,bg="#cbf3f0",text=" current course information ",font=("Berlin Sans FB",16))
@@ -143,6 +136,14 @@ class student:
 
     update_photo_btn=Button(btn_frame_2,text="Update Photo Samples",font=("Berlin Sans FB",12),bg="#2ec4b6",relief=RIDGE,border=2,width=36)
     update_photo_btn.grid(row=0,column=1)
+
+    #right label fram 
+    right_frame=LabelFrame(main_frame,bd=0,relief=RIDGE,bg="#cbf3f0",text=" Student details ",font=("Berlin Sans FB",20))
+    right_frame.place(x=740,y=15,width=700,height=600)
+
+    #fodder
+    main_frame=Frame(background_frame, bg="#2ec4b6")
+    main_frame.place(x=0,y=730,width=screen_width,height=screen_height)
     
 
 if __name__=="__main__":
