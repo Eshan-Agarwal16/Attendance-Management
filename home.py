@@ -73,7 +73,7 @@ class student_attendance_system:
         frame_check1 = Frame(button_frame,bg = "#2ec4b6")
         frame_check1.place(x=0,y=0,width = 250,height = 212.5)
 
-        button_text_1 = Button(frame_check1,command=self.student_detials,text = "Student Info",cursor = "hand2",font = ("Berlin Sans FB",14))
+        button_text_1 = Button(frame_check1,command=self.student_detials,text = "Student Info",cursor = "hand2",font = ("Berlin Sans FB",14),relief=FLAT)
         button_text_1.place(x = 0,y = 187.5,width = 250,height =25)
 
         check_button1 = Button(frame_check1,command=self.student_detials,image = self.student_img_photo,cursor = "hand2",bd = 0 )
@@ -82,7 +82,7 @@ class student_attendance_system:
         frame_check2 = Frame(button_frame,bg = "white")
         frame_check2.place(x=275,y=0,width = 250,height = 212.5)
 
-        button_text_2 = Button(frame_check2,text = "Face Recognition",cursor = "hand2",font = ("Berlin Sans FB",14))
+        button_text_2 = Button(frame_check2,text = "Face Recognition",cursor = "hand2",font = ("Berlin Sans FB",14),relief=FLAT)
         button_text_2.place(x = 0,y = 187.5,width = 250,height =25)
         
         check_button2 = Button(frame_check2,image = self.developer_img_photo,cursor = "hand2",bd = 0 )
@@ -91,7 +91,7 @@ class student_attendance_system:
         frame_check3 = Frame(button_frame,bg = "white")
         frame_check3.place(x=550,y=0,width = 250,height = 212.5)
 
-        button_text_3 = Button(frame_check3,text = "Train Data",cursor = "hand2",font = ("Berlin Sans FB",14))
+        button_text_3 = Button(frame_check3,text = "Train Data",cursor = "hand2",font = ("Berlin Sans FB",14),relief=FLAT)
         button_text_3.place(x = 0,y = 187.5,width = 250,height =25)
 
         check_button3 = Button(frame_check3,image = self.train_data_img_photo,cursor = "hand2",bd = 0 )
@@ -100,7 +100,7 @@ class student_attendance_system:
         frame_check4 = Frame(button_frame,bg = "white")
         frame_check4.place(x=0,y=237.5,width = 250,height = 212.5)
 
-        button_text_4 = Button(frame_check4,text = "Github",cursor = "hand2",command = github_link,font = ("Berlin Sans FB",14))
+        button_text_4 = Button(frame_check4,text = "Github",cursor = "hand2",command = github_link,font = ("Berlin Sans FB",14),relief=FLAT)
         button_text_4.place(x = 0,y = 187.5,width = 250,height =25)
 
         check_button4 = Button(frame_check4,image = self.photos_img_photo,cursor = "hand2",command = github_link,bd = 0 )
@@ -109,7 +109,7 @@ class student_attendance_system:
         frame_check5 = Frame(button_frame,bg = "white")
         frame_check5.place(x=275,y=237.5,width = 250,height = 212.5)
 
-        button_text_5 = Button(frame_check5,text = "Attendance",cursor = "hand2",font = ("Berlin Sans FB",14))
+        button_text_5 = Button(frame_check5,text = "Attendance",cursor = "hand2",font = ("Berlin Sans FB",14),relief=FLAT)
         button_text_5.place(x = 0,y = 187.5,width = 250,height =25)
 
         check_button5 = Button(frame_check5,image = self.face_img_photo,cursor = "hand2",bd = 0 )
@@ -118,7 +118,7 @@ class student_attendance_system:
         frame_check6 = Frame(button_frame,bg = "white")
         frame_check6.place(x=550,y=237.5,width = 250,height = 212.5)
 
-        button_text_6 = Button(frame_check6,text = "Help Desk",cursor = "hand2",font = ("Berlin Sans FB",14))
+        button_text_6 = Button(frame_check6,text = "Help Desk",cursor = "hand2",font = ("Berlin Sans FB",14),relief=FLAT)
         button_text_6.place(x = 0,y = 187.5,width = 250,height =25)
 
         check_button6 = Button(frame_check6,image = self.attendance_img_photo,cursor = "hand2",bd = 0 )

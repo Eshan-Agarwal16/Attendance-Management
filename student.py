@@ -8,6 +8,9 @@ class Student:
     self.root = root
     self.root.title("Attendance Manager")
     self.root.state('zoomed')
+
+    screen_width = self.root.winfo_screenwidth()
+    screen_height = self.root.winfo_screenheight()
     # self.root.configure(bg="#cbf3f0")
 
     screen_width = self.root.winfo_screenwidth()
@@ -19,7 +22,7 @@ class Student:
     title_size = 70*screen_width
     title_size = int(title_size/1920)
     heading = Label(background_frame ,text = "STUDENT DETAILS",font = ("Berlin Sans FB",title_size),fg= "#2ec4b6",bg = "#cbf3f0",pady=10)
-    heading.place(x=0,y=0,width=screen_width)
+    heading.place(x=0,y=0,width=screen_width,height=90)
 
     main_frame=Frame(background_frame, bg="#cbf3f0",highlightthickness=20, highlightbackground="#cbf3f0",highlightcolor="#cbf3f0")
     main_frame.place(x=0,y=80,width=screen_width,height=screen_height-210)
@@ -101,14 +104,14 @@ class Student:
     gender_combo.current(0)
     gender_combo.grid(row=2,column=1,padx=5,pady=10,sticky=W)
     
-    s = ttk.Style()                     # Creating style element
-    s.configure('style.TRadiobutton',background="#cbf3f0")
+    # s = ttk.Style()                     # Creating style element
+    # s.configure('style.TRadiobutton',background="#cbf3f0")
 
-    radio_button_1=ttk.Radiobutton(student_info_frame,text="Sample photo taken",value="Yes",style="style.TRadiobutton")
-    radio_button_1.grid(row=3,column=0,pady=20)
+    # radio_button_1=ttk.Radiobutton(student_info_frame,text="Sample photo taken",value="Yes",style="style.TRadiobutton")
+    # radio_button_1.grid(row=3,column=0,pady=20)
 
-    radio_button_2=ttk.Radiobutton(student_info_frame,text="Sample photo not taken",value="Yes",style="style.TRadiobutton")
-    radio_button_2.grid(row=3,column=1,pady=20)
+    # radio_button_2=ttk.Radiobutton(student_info_frame,text="Sample photo not taken",value="Yes",style="style.TRadiobutton")
+    # radio_button_2.grid(row=3,column=1,pady=20)
 
     #button frame 1
     btn_frame_1=Frame(left_frame,bd=0,relief=RIDGE,bg="#cbf3f0")
@@ -210,7 +213,7 @@ class Student:
 
     #fodder
     fodder_frame=Frame(background_frame, bg="#2ec4b6")
-    fodder_frame.place(x=0,y=710,width=screen_width,height=screen_height)
+    fodder_frame.place(x=0,y=screen_height-160,width=screen_width,height=screen_height)
     
 
 if __name__=="__main__":
