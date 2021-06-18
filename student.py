@@ -2,7 +2,7 @@ from tkinter import *
 from tkinter import ttk 
 from PIL import Image, ImageTk
 
-class student:
+class Student:
   def __init__(self,root):
 
     self.root = root

@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter import ttk
 from PIL import Image,ImageTk
+from student import Student
 import webbrowser as wb
 global screen_width 
 
@@ -72,10 +73,10 @@ class student_attendance_system:
         frame_check1 = Frame(button_frame,bg = "#2ec4b6")
         frame_check1.place(x=0,y=0,width = 250,height = 212.5)
 
-        button_text_1 = Button(frame_check1,text = "Student Info",cursor = "hand2",font = ("Berlin Sans FB",14))
+        button_text_1 = Button(frame_check1,command=self.student_detials,text = "Student Info",cursor = "hand2",font = ("Berlin Sans FB",14))
         button_text_1.place(x = 0,y = 187.5,width = 250,height =25)
 
-        check_button1 = Button(frame_check1,image = self.student_img_photo,cursor = "hand2",bd = 0 )
+        check_button1 = Button(frame_check1,command=self.student_detials,image = self.student_img_photo,cursor = "hand2",bd = 0 )
         check_button1.place(x=1,y=1)
 
         frame_check2 = Frame(button_frame,bg = "white")
@@ -124,6 +125,14 @@ class student_attendance_system:
         check_button6.place(x=1,y=1)
 
         #ADDING BUTTONS OF MENUs
+
+    #==============function buttons================
+
+    def student_detials(self):
+        self.new_window=Toplevel(self.root)
+        self.app=Student(self.new_window)
+
+        
 
     
 
