@@ -26,7 +26,7 @@ class student:
     
     #left label fram 
     left_frame=LabelFrame(main_frame,bd=0,relief=RIDGE,bg="#cbf3f0",text=" Student details ",font=("Berlin Sans FB",20))
-    left_frame.place(x=20,y=15,width=700,height=600)
+    left_frame.place(x=20,y=15,width=700,height=580)
 
 
     #current corse
@@ -139,7 +139,7 @@ class student:
 
     #right label fram 
     right_frame=LabelFrame(main_frame,bd=0,relief=RIDGE,bg="#cbf3f0",text=" Student data ",font=("Berlin Sans FB",20))
-    right_frame.place(x=740,y=15,width=700,height=600)
+    right_frame.place(x=740,y=15,width=700,height=580)
 
     #===========search system================
     search_frame=LabelFrame(right_frame,bd=0,relief=RIDGE,bg="#cbf3f0",text=" Search data ",font=("Berlin Sans FB",16))
@@ -210,7 +210,7 @@ class student:
 
     #fodder
     fodder_frame=Frame(background_frame, bg="#2ec4b6")
-    fodder_frame.place(x=0,y=730,width=screen_width,height=screen_height)
+    fodder_frame.place(x=0,y=710,width=screen_width,height=screen_height)
     
 
 if __name__=="__main__":
