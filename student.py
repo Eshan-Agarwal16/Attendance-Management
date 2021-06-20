@@ -1,6 +1,8 @@
 from tkinter import *
 from tkinter import ttk 
 from PIL import Image, ImageTk
+from tkinter import messagebox
+import mysql.connector
 
 class Student:
   def __init__(self,root):
@@ -25,7 +27,7 @@ class Student:
     heading.place(x=0,y=0,width=screen_width,height=90)
 
     #variables declare
-    self.var_id = IntVar()
+    self.var_id = StringVar()
     self.var_name = StringVar()
     self.var_gen = StringVar()
     self.var_dob = StringVar()
@@ -50,7 +52,7 @@ class Student:
     dep_label=Label(current_course_frame,text=" Department: ",font=("Berlin Sans FB",12),bg="#cbf3f0")
     dep_label.grid(row=0,column=0,padx=5,pady=20,sticky=E)
 
-    dep_combo=ttk.Combobox(current_course_frame,font=("Berlin Sans FB",12,),width=17, state="read only")
+    dep_combo=ttk.Combobox(current_course_frame,textvariable=self.var_dept,font=("Berlin Sans FB",12,),width=17, state="read only")
     dep_combo["values"]=("select depratment","computer","electronics","electical","civil","mechanical","chemical")
     dep_combo.current(0)
     dep_combo.grid(row=0,column=1,padx=2,pady=20,sticky=E)
@@ -58,7 +60,7 @@ class Student:
     course_label=Label(current_course_frame,text=" Course: ",font=("Berlin Sans FB",12,),bg="#cbf3f0")
     course_label.grid(row=0,column=2,padx=5,pady=20,sticky=E) 
 
-    course_combo=ttk.Combobox(current_course_frame,font=("Berlin Sans FB",12,),width=17, state="read only")
+    course_combo=ttk.Combobox(current_course_frame,textvariable=self.var_course,font=("Berlin Sans FB",12,),width=17, state="read only")
     course_combo["values"]=("select course","B.Tech","M.tech","PhD")
     course_combo.current(0)
     course_combo.grid(row=0,column=3,padx=2,pady=20,sticky=E)
@@ -66,7 +68,7 @@ class Student:
     year_label=Label(current_course_frame,text=" Year: ",font=("Berlin Sans FB",12,),bg="#cbf3f0")
     year_label.grid(row=1,column=0,padx=5,pady=10,sticky=E)
 
-    year_combo=ttk.Combobox(current_course_frame,font=("Berlin Sans FB",12,),width=17, state="read only")
+    year_combo=ttk.Combobox(current_course_frame,textvariable=self.var_year,font=("Berlin Sans FB",12,),width=17, state="read only")
     year_combo["values"]=("select Year","1st","2nd","3rd","4th")
     year_combo.current(0)
     year_combo.grid(row=1,column=1,padx=2,pady=10,sticky=E)
@@ -74,7 +76,7 @@ class Student:
     sem_label=Label(current_course_frame,text=" Semester: ",font=("Berlin Sans FB",12,),bg="#cbf3f0")
     sem_label.grid(row=1,column=2,padx=5,pady=10,sticky=E)
 
-    sem_combo=ttk.Combobox(current_course_frame,font=("Berlin Sans FB",12,),width=17, state="read only")
+    sem_combo=ttk.Combobox(current_course_frame,textvariable=self.var_sem,font=("Berlin Sans FB",12,),width=17, state="read only")
     sem_combo["values"]=("select semester","even","odd")
     sem_combo.current(0)
     sem_combo.grid(row=1,column=3,padx=2,pady=10,sticky=E)
@@ -86,32 +88,32 @@ class Student:
     admission_no_label=Label(student_info_frame,text=" Admission number: ",font=("Berlin Sans FB",12,),bg="#cbf3f0")
     admission_no_label.grid(row=0,column=0,padx=5,pady=(20,10),sticky=E)
 
-    admission_no_entry=ttk.Entry(student_info_frame,width=15,font=("Berlin Sans FB",12,))
+    admission_no_entry=ttk.Entry(student_info_frame,textvariable=self.var_id,width=15,font=("Berlin Sans FB",12,))
     admission_no_entry.grid(row=0,column=1,padx=5,pady=(20,10),sticky=E)
 
     name_label=Label(student_info_frame,text=" Name: ",font=("Berlin Sans FB",12,),bg="#cbf3f0")
     name_label.grid(row=0,column=2,padx=5,pady=(20,10),sticky=E)
 
-    name_entry=ttk.Entry(student_info_frame,width=15,font=("Berlin Sans FB",12,))
+    name_entry=ttk.Entry(student_info_frame,textvariable=self.var_name,width=15,font=("Berlin Sans FB",12,))
     name_entry.grid(row=0,column=3,padx=5,pady=(20,10),sticky=E)
 
     DOB_label=Label(student_info_frame,text=" Date of Birth: ",font=("Berlin Sans FB",12,),bg="#cbf3f0")
     DOB_label.grid(row=1,column=0,padx=5,pady=10,sticky=E)
 
-    DOB_entry=ttk.Entry(student_info_frame,width=15,font=("Berlin Sans FB",12,))
+    DOB_entry=ttk.Entry(student_info_frame,textvariable=self.var_dob,width=15,font=("Berlin Sans FB",12,))
     DOB_entry.grid(row=1,column=1,padx=5,pady=10,sticky=E)
 
     email_label=Label(student_info_frame,text=" Email: ",font=("Berlin Sans FB",12,),bg="#cbf3f0")
     email_label.grid(row=1,column=2,padx=5,pady=10,sticky=E)
 
-    email_entry=ttk.Entry(student_info_frame,width=15,font=("Berlin Sans FB",12,))
+    email_entry=ttk.Entry(student_info_frame,textvariable=self.var_email,width=15,font=("Berlin Sans FB",12,))
     email_entry.grid(row=1,column=3,padx=5,pady=10,sticky=E)
 
     gender_label=Label(student_info_frame,text=" Gender: ",font=("Berlin Sans FB",12,),bg="#cbf3f0")
     gender_label.grid(row=2,column=0,padx=5,pady=10,sticky=E)
 
-    gender_combo=ttk.Combobox(student_info_frame,font=("Berlin Sans FB",12,),width=10, state="read only")
-    gender_combo["values"]=("select gender","Male","Female","Prefer not to tell")
+    gender_combo=ttk.Combobox(student_info_frame,textvariable=self.var_gen,font=("Berlin Sans FB",12,),width=10, state="read only")
+    gender_combo["values"]=("select gender","Male","Female")
     gender_combo.current(0)
     gender_combo.grid(row=2,column=1,padx=5,pady=10,sticky=W)
     
@@ -128,7 +130,7 @@ class Student:
     btn_frame_1=Frame(left_frame,bd=0,relief=RIDGE,bg="#cbf3f0")
     btn_frame_1.place(x=8,y=420,width=680)
 
-    save_btn=Button(btn_frame_1,text="Save",font=("Berlin Sans FB",12),bg="#2ec4b6",relief=RIDGE,border=2,width=18)
+    save_btn=Button(btn_frame_1,text="Save",command = self.add_data,font=("Berlin Sans FB",12),bg="#2ec4b6",relief=RIDGE,border=2,width=18)
     save_btn.grid(row=0,column=0)
 
     update_btn=Button(btn_frame_1,text="Update",font=("Berlin Sans FB",12),bg="#2ec4b6",relief=RIDGE,border=2,width=17)
@@ -228,7 +230,14 @@ class Student:
   
   #===========FUNCTION DECLARATION==============  
   def add_data(self):
-    pass
+    if self.var_dept.get() == "select depratment" or self.var_course.get() == "select course" or self.var_year.get() == "select Year" or self.var_sem.get() == "select semester":
+      messagebox.showerror("Error","All the Fields are required")
+    elif self.var_email.get == "" or self.var_id.get() == "" or self.var_name.get() == "" or self.var_dob.get() == "" or self.var_gen.get() == "select gender" :
+      messagebox.showerror("Error","All the Fields are required")
+    else:
+      # conn = mysql.connector.connect(host = "localhost",user = "root",password = "1234" , database = "attendance_manager")
+      # my_cursor = conn.cursor()
+      pass      
 
 
 
