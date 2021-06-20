@@ -133,7 +133,7 @@ class Student:
     save_btn=Button(btn_frame_1,text="Save",command = self.add_data,font=("Berlin Sans FB",12),bg="#2ec4b6",relief=RIDGE,border=2,width=18)
     save_btn.grid(row=0,column=0)
 
-    update_btn=Button(btn_frame_1,text="Update",font=("Berlin Sans FB",12),bg="#2ec4b6",relief=RIDGE,border=2,width=17)
+    update_btn=Button(btn_frame_1,text="Update",command = self.update_data,font=("Berlin Sans FB",12),bg="#2ec4b6",relief=RIDGE,border=2,width=17)
     update_btn.grid(row=0,column=1)
 
     reset_btn=Button(btn_frame_1,text="Reset",font=("Berlin Sans FB",12),bg="#2ec4b6",relief=RIDGE,border=2,width=17)
@@ -189,7 +189,8 @@ class Student:
     scroll_x=ttk.Scrollbar(table_frame,orient=HORIZONTAL)
     scroll_y=ttk.Scrollbar(table_frame,orient=VERTICAL)
 
-    self.student_table=ttk.Treeview(table_frame,column=("adm_no","name","gender","DOB","dep","course","year","sem","email","photo"),xscrollcommand=scroll_x.set,yscrollcommand=scroll_y.set)
+    #self.student_table=ttk.Treeview(table_frame,column=("adm_no","name","gender","DOB","dep","course","year","sem","email","photo"),xscrollcommand=scroll_x.set,yscrollcommand=scroll_y.set)
+    self.student_table=ttk.Treeview(table_frame,column=("adm_no","name","gender","DOB","dep","course","year","sem","email"),xscrollcommand=scroll_x.set,yscrollcommand=scroll_y.set)
 
     scroll_x.pack(side=BOTTOM,fill=X)
     scroll_y.pack(side=RIGHT,fill=Y)
@@ -205,7 +206,7 @@ class Student:
     self.student_table.heading("year",text="Year")
     self.student_table.heading("sem",text="Semester")
     self.student_table.heading("email",text="Email")
-    self.student_table.heading("photo",text="Photo sample status")
+    #self.student_table.heading("photo",text="Photo sample status")
     self.student_table["show"]="headings"
 
     self.student_table.column("adm_no",width=100)
@@ -217,11 +218,12 @@ class Student:
     self.student_table.column("year",width=100)
     self.student_table.column("sem",width=100)
     self.student_table.column("email",width=100)
-    self.student_table.column("photo",width=150)
+    #self.student_table.column("photo",width=150)
 
     self.student_table.pack(fill=BOTH,expand=1)
+    self.student_table.bind("<ButtonRelease>",self.get_cursor)
 
-
+    self.get_data()
 
 
     #fodder
@@ -229,19 +231,94 @@ class Student:
     fodder_frame.place(x=0,y=screen_height-160,width=screen_width,height=screen_height)
   
   #===========FUNCTION DECLARATION==============  
+  def get_data(self):
+      conn = mysql.connector.connect(host = "localhost",user = 'root',password = '1234' , database = "attendance_manager")
+      my_cursor = conn.cursor()
+      my_cursor.execute("select * from student_data")
+      data = my_cursor.fetchall()
+      if len(data) != 0:
+        self.student_table.delete(*self.student_table.get_children())
+        for i in data:
+          self.student_table.insert("",END,values=i)
+      conn.commit()
+      conn.close()
+ 
+  
   def add_data(self):
     if self.var_dept.get() == "select depratment" or self.var_course.get() == "select course" or self.var_year.get() == "select Year" or self.var_sem.get() == "select semester":
       messagebox.showerror("Error","All the Fields are required")
     elif self.var_email.get == "" or self.var_id.get() == "" or self.var_name.get() == "" or self.var_dob.get() == "" or self.var_gen.get() == "select gender" :
       messagebox.showerror("Error","All the Fields are required")
     else:
-      conn = mysql.connector.connect(host = "localhost",user = 'root',password = '1234' , database = "attendance_manager")
-      my_cursor = conn.cursor()
-      insert_id = int(self.var_id.get())
-      my_cursor.execute("insert into student_data values (%s,%s,%s,%s,%s,%s,%s,%s,%s)",(self.var_id.get(),self.var_name.get(),self.var_gen.get(),self.var_dob.get(),self.var_dept.get(),self.var_course.get(),self.var_year.get(),self.var_sem.get(),self.var_email.get()))
-      conn.commit()
-      conn.close()
-      messagebox.showinfo("DATA INSERTED SUCCESSFULLY")
+      try:
+        conn = mysql.connector.connect(host = "localhost",user = 'root',password = '1234' , database = "attendance_manager")
+        my_cursor = conn.cursor()
+        #insert_id = int(self.var_id.get())
+        my_cursor.execute("insert into student_data values (%s,%s,%s,%s,%s,%s,%s,%s,%s)",(self.var_id.get(),self.var_name.get(),self.var_gen.get(),self.var_dob.get(),self.var_dept.get(),self.var_course.get(),self.var_year.get(),self.var_sem.get(),self.var_email.get()))
+        conn.commit()
+        self.get_data()
+        conn.close()
+        messagebox.showinfo("SUCCESS","DATA INSERTED SUCCESSFULLY")
+        self.var_id.set(" ")
+        self.var_name.set(" ")
+        self.var_gen.set("select gender")
+        self.var_dob.set(" ")
+        self.var_dept.set("select department")
+        self.var_course.set("select course")
+        self.var_year.set("select Year")
+        self.var_sem.set("select semester")
+        self.var_email.set(" ")
+      except Exception as es:
+        messagebox.showerror("Error",es)
+
+
+  def get_cursor(self,event = ""):
+    cursor_focus = self.student_table.focus()
+    print("cursor_focus",cursor_focus)
+    content = self.student_table.item(cursor_focus)
+    data = content["values"]
+    print("data",data)    
+    self.var_id.set(data[0])
+    self.var_name.set(data[1])
+    self.var_gen.set(data[2])
+    self.var_dob.set(data[3])
+    self.var_dept.set(data[4])
+    self.var_course.set(data[5])
+    self.var_year.set(data[6])
+    self.var_sem.set(data[7])
+    self.var_email.set(data[8])
+
+  def update_data(self):
+    if self.var_dept.get() == "select depratment" or self.var_course.get() == "select course" or self.var_year.get() == "select Year" or self.var_sem.get() == "select semester":
+      messagebox.showerror("Error","All the Fields are required")
+    elif self.var_email.get == "" or self.var_id.get() == "" or self.var_name.get() == "" or self.var_dob.get() == "" or self.var_gen.get() == "select gender" :
+      messagebox.showerror("Error","All the Fields are required")
+    else:
+      update = messagebox.askyesno("Update","Do you want to update the data?")
+      if update> 0:
+        try:
+          conn = mysql.connector.connect(host = "localhost",user = 'root',password = '1234' , database = "attendance_manager")
+          my_cursor = conn.cursor()
+          my_cursor.execute("UPDATE student_data SET `name` = %s, `gender` = %s, `dob` = %s, `dept` = %s, `course` = %s, `year` = %s, `sem` = %s, `email` = %s WHERE (`id` = %s);",(self.var_name.get(),self.var_gen.get(),self.var_dob.get(),self.var_dept.get(),self.var_course.get(),self.var_year.get(),self.var_sem.get(),self.var_email.get(),self.var_id.get()))
+          messagebox.showinfo("SUCCESS","Student info updated successfully")
+          conn.commit()
+          self.get_data()
+          conn.close()
+          self.var_id.set(" ")
+          self.var_name.set(" ")
+          self.var_gen.set("select gender")
+          self.var_dob.set(" ")
+          self.var_dept.set("select department")
+          self.var_course.set("select course")
+          self.var_year.set("select Year")
+          self.var_sem.set("select semester")
+          self.var_email.set(" ")
+        except Exception as es:
+          messagebox.showerror("Error",es)
+      else:
+        if not update:
+          return
+
 
       
 
