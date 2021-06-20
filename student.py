@@ -235,9 +235,9 @@ class Student:
     elif self.var_email.get == "" or self.var_id.get() == "" or self.var_name.get() == "" or self.var_dob.get() == "" or self.var_gen.get() == "select gender" :
       messagebox.showerror("Error","All the Fields are required")
     else:
-      # conn = mysql.connector.connect(host = "localhost",user = "root",password = "1234" , database = "attendance_manager")
-      # my_cursor = conn.cursor()
-      pass      
+      conn = mysql.connector.connect(host = "localhost",user = 'root',password = '1234' , database = "attendance_manager")
+      my_cursor = conn.cursor()
+      
 
 
 
