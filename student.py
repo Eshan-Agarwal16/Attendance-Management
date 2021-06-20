@@ -24,6 +24,17 @@ class Student:
     heading = Label(background_frame ,text = "STUDENT DETAILS",font = ("Berlin Sans FB",title_size),fg= "#2ec4b6",bg = "#cbf3f0",pady=10)
     heading.place(x=0,y=0,width=screen_width,height=90)
 
+    #variables declare
+    self.var_id = IntVar()
+    self.var_name = StringVar()
+    self.var_gen = StringVar()
+    self.var_dob = StringVar()
+    self.var_dept = StringVar()
+    self.var_course = StringVar()
+    self.var_year = StringVar()
+    self.var_sem = StringVar()
+    self.var_email = StringVar()
+
     main_frame=Frame(background_frame, bg="#cbf3f0",highlightthickness=20, highlightbackground="#cbf3f0",highlightcolor="#cbf3f0")
     main_frame.place(x=0,y=80,width=screen_width,height=screen_height-210)
     
@@ -214,7 +225,10 @@ class Student:
     #fodder
     fodder_frame=Frame(background_frame, bg="#2ec4b6")
     fodder_frame.place(x=0,y=screen_height-160,width=screen_width,height=screen_height)
-    
+  
+  #===========FUNCTION DECLARATION==============  
+  def add_data(self):
+
 
 if __name__=="__main__":
   root=Tk()
