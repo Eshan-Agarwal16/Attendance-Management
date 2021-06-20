@@ -136,10 +136,10 @@ class Student:
     update_btn=Button(btn_frame_1,text="Update",command = self.update_data,font=("Berlin Sans FB",12),bg="#2ec4b6",relief=RIDGE,border=2,width=17)
     update_btn.grid(row=0,column=1)
 
-    reset_btn=Button(btn_frame_1,text="Reset",font=("Berlin Sans FB",12),bg="#2ec4b6",relief=RIDGE,border=2,width=17)
+    reset_btn=Button(btn_frame_1,text="Reset",command= self.reset_data,font=("Berlin Sans FB",12),bg="#2ec4b6",relief=RIDGE,border=2,width=17)
     reset_btn.grid(row=0,column=2)
 
-    delete_btn=Button(btn_frame_1,text="Delete",font=("Berlin Sans FB",12),bg="#2ec4b6",relief=RIDGE,border=2,width=18)
+    delete_btn=Button(btn_frame_1,text="Delete",command = self.delete_data,font=("Berlin Sans FB",12),bg="#2ec4b6",relief=RIDGE,border=2,width=18)
     delete_btn.grid(row=0,column=3)
 
 
@@ -318,6 +318,47 @@ class Student:
       else:
         if not update:
           return
+
+  def delete_data(self):
+    if self.var_id == "":
+      messagebox.showerror("Error","ID required")
+    else:
+      delete = messagebox.askyesno("Delete","Do you want to delete the information of student with ID = "+ str(self.var_id))
+      if delete > 0:
+        try:
+          conn = mysql.connector.connect(host = "localhost",user = 'root',password = '1234' , database = "attendance_manager")
+          my_cursor = conn.cursor()
+          sql = "DELETE FROM student_data WHERE (`id` = %s);"
+          val = (self.var_id.get(),)
+          my_cursor.execute(sql,val)
+          messagebox.showinfo("SUCCESS","Data deleted successfully")
+          conn.commit()
+          self.get_data()
+          conn.close()
+          self.var_id.set(" ")
+          self.var_name.set(" ")
+          self.var_gen.set("select gender")
+          self.var_dob.set(" ")
+          self.var_dept.set("select department")
+          self.var_course.set("select course")
+          self.var_year.set("select Year")
+          self.var_sem.set("select semester")
+          self.var_email.set(" ")
+        except Exception as es:
+          messagebox.showerror("Error",es)
+      elif not delete:
+        return
+
+  def reset_data(self):
+    self.var_id.set(" ")
+    self.var_gen.set("select gender")
+    self.var_dob.set(" ")
+    self.var_name.set(" ")
+    self.var_dept.set("select department")
+    self.var_course.set("select course")
+    self.var_year.set("select Year")
+    self.var_sem.set("select semester")
+    self.var_email.set(" ")
 
 
       
