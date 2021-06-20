@@ -228,6 +228,8 @@ class Student:
   
   #===========FUNCTION DECLARATION==============  
   def add_data(self):
+    pass
+
 
 
 if __name__=="__main__":
