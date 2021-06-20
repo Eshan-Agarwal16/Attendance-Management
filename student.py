@@ -237,6 +237,12 @@ class Student:
     else:
       conn = mysql.connector.connect(host = "localhost",user = 'root',password = '1234' , database = "attendance_manager")
       my_cursor = conn.cursor()
+      insert_id = int(self.var_id.get())
+      my_cursor.execute("insert into student_data values (%s,%s,%s,%s,%s,%s,%s,%s,%s)",(self.var_id.get(),self.var_name.get(),self.var_gen.get(),self.var_dob.get(),self.var_dept.get(),self.var_course.get(),self.var_year.get(),self.var_sem.get(),self.var_email.get()))
+      conn.commit()
+      conn.close()
+      messagebox.showinfo("DATA INSERTED SUCCESSFULLY")
+
       
 
 
