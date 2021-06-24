@@ -246,9 +246,9 @@ class Student:
   
   def add_data(self):
     if self.var_dept.get() == "select depratment" or self.var_course.get() == "select course" or self.var_year.get() == "select Year" or self.var_sem.get() == "select semester":
-      messagebox.showerror("Error","All the Fields are required")
+      messagebox.showerror("Error","All the Fields are required",parent = self.root)
     elif self.var_email.get == "" or self.var_id.get() == "" or self.var_name.get() == "" or self.var_dob.get() == "" or self.var_gen.get() == "select gender" :
-      messagebox.showerror("Error","All the Fields are required")
+      messagebox.showerror("Error","All the Fields are required",parent = self.root)
     else:
       try:
         conn = mysql.connector.connect(host = "localhost",user = 'root',password = '1234' , database = "attendance_manager")
@@ -258,7 +258,7 @@ class Student:
         conn.commit()
         self.get_data()
         conn.close()
-        messagebox.showinfo("SUCCESS","DATA INSERTED SUCCESSFULLY")
+        messagebox.showinfo("SUCCESS","DATA INSERTED SUCCESSFULLY",parent = self.root)
         self.var_id.set(" ")
         self.var_name.set(" ")
         self.var_gen.set("select gender")
@@ -269,7 +269,7 @@ class Student:
         self.var_sem.set("select semester")
         self.var_email.set(" ")
       except Exception as es:
-        messagebox.showerror("Error",es)
+        messagebox.showerror("Error",es,parent = self.root)
 
 
   def get_cursor(self,event = ""):
@@ -290,17 +290,17 @@ class Student:
 
   def update_data(self):
     if self.var_dept.get() == "select depratment" or self.var_course.get() == "select course" or self.var_year.get() == "select Year" or self.var_sem.get() == "select semester":
-      messagebox.showerror("Error","All the Fields are required")
+      messagebox.showerror("Error","All the Fields are required",parent = self.root)
     elif self.var_email.get == "" or self.var_id.get() == "" or self.var_name.get() == "" or self.var_dob.get() == "" or self.var_gen.get() == "select gender" :
-      messagebox.showerror("Error","All the Fields are required")
+      messagebox.showerror("Error","All the Fields are required",parent = self.root)
     else:
-      update = messagebox.askyesno("Update","Do you want to update the data?")
+      update = messagebox.askyesno("Update","Do you want to update the data?",parent = self.root)
       if update> 0:
         try:
           conn = mysql.connector.connect(host = "localhost",user = 'root',password = '1234' , database = "attendance_manager")
           my_cursor = conn.cursor()
           my_cursor.execute("UPDATE student_data SET `name` = %s, `gender` = %s, `dob` = %s, `dept` = %s, `course` = %s, `year` = %s, `sem` = %s, `email` = %s WHERE (`id` = %s);",(self.var_name.get(),self.var_gen.get(),self.var_dob.get(),self.var_dept.get(),self.var_course.get(),self.var_year.get(),self.var_sem.get(),self.var_email.get(),self.var_id.get()))
-          messagebox.showinfo("SUCCESS","Student info updated successfully")
+          messagebox.showinfo("SUCCESS","Student info updated successfully",parent = self.root)
           conn.commit()
           self.get_data()
           conn.close()
@@ -314,16 +314,16 @@ class Student:
           self.var_sem.set("select semester")
           self.var_email.set(" ")
         except Exception as es:
-          messagebox.showerror("Error",es)
+          messagebox.showerror("Error",es,parent = self.root)
       else:
         if not update:
           return
 
   def delete_data(self):
     if self.var_id == "":
-      messagebox.showerror("Error","ID required")
+      messagebox.showerror("Error","ID required",parent = self.root)
     else:
-      delete = messagebox.askyesno("Delete","Do you want to delete the information of student with ID = "+ str(self.var_id))
+      delete = messagebox.askyesno("Delete","Do you want to delete the information of student with ID = "+ str(self.var_id),parent = self.root)
       if delete > 0:
         try:
           conn = mysql.connector.connect(host = "localhost",user = 'root',password = '1234' , database = "attendance_manager")
@@ -331,7 +331,7 @@ class Student:
           sql = "DELETE FROM student_data WHERE (`id` = %s);"
           val = (self.var_id.get(),)
           my_cursor.execute(sql,val)
-          messagebox.showinfo("SUCCESS","Data deleted successfully")
+          messagebox.showinfo("SUCCESS","Data deleted successfully",parent = self.root)
           conn.commit()
           self.get_data()
           conn.close()
@@ -345,7 +345,7 @@ class Student:
           self.var_sem.set("select semester")
           self.var_email.set(" ")
         except Exception as es:
-          messagebox.showerror("Error",es)
+          messagebox.showerror("Error",es,parent = self.root)
       elif not delete:
         return
 
