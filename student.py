@@ -11,8 +11,8 @@ class Student:
     self.root.title("Attendance Manager")
     self.root.state('zoomed')
 
-    screen_width = self.root.winfo_screenwidth()
-    screen_height = self.root.winfo_screenheight()
+    screen_width = 1536
+    screen_height = 864
     # self.root.configure(bg="#cbf3f0")
 
     screen_width = self.root.winfo_screenwidth()

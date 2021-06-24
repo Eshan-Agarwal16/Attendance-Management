@@ -22,8 +22,8 @@ class student_attendance_system:
         self.root.state('zoomed')
         self.root['background'] = "#cbf3f0"
         
-        screen_width = self.root.winfo_screenwidth()
-        screen_height = self.root.winfo_screenheight()
+        screen_width = 1536
+        screen_height = 864
         print(screen_height,screen_width)
         
         
