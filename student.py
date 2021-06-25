@@ -3,6 +3,22 @@ from tkinter import ttk
 from PIL import Image, ImageTk
 from tkinter import messagebox
 import mysql.connector
+import cv2
+
+def save_img(img,got_id,no_of_photo):
+  img_name = "Data/user."+ str(got_id) + "." + str(no_of_photo) + ".jpg"
+  cv2.imwrite(img_name,img)
+
+
+def classify(img):
+  gray_img = cv2.cvtColor(img , cv2.COLOR_BGR2GRAY)
+  face_classifier = cv2.CascadeClassifier("haarcascade_frontalface_default.xml")
+  all_cordi = face_classifier.detectMultiScale(gray_img,1.2,8)
+  if len(all_cordi) == 0:
+    return [img,0]
+  for (x,y,w,h) in all_cordi:
+      cv2.rectangle(img,(x,y),(x+w,y+h),(0,255,0),2)
+  return [img,1]
 
 class Student:
   def __init__(self,root):
@@ -144,14 +160,14 @@ class Student:
 
 
     #button frame 2
-    btn_frame_2=Frame(left_frame,bd=0,relief=RIDGE,bg="#cbf3f0")
-    btn_frame_2.place(x=8,y=455,width=680,height=40)
+    # btn_frame_2=Frame(left_frame,bd=0,relief=RIDGE,bg="#cbf3f0")
+    # btn_frame_2.place(x=8,y=455,width=680,height=40)
 
-    take_photo_btn=Button(btn_frame_2,text="Take Photo Samples",font=("Berlin Sans FB",12),bg="#2ec4b6",relief=RIDGE,border=2,width=36)
-    take_photo_btn.grid(row=0,column=0)
+    # take_photo_btn=Button(btn_frame_2,text="Take Photo Samples",command = self.take_photo,font=("Berlin Sans FB",12),bg="#2ec4b6",relief=RIDGE,border=2,width=36)
+    # take_photo_btn.grid(row=0,column=0)
 
-    update_photo_btn=Button(btn_frame_2,text="Update Photo Samples",font=("Berlin Sans FB",12),bg="#2ec4b6",relief=RIDGE,border=2,width=36)
-    update_photo_btn.grid(row=0,column=1)
+    # update_photo_btn=Button(btn_frame_2,text="Update Photo Samples",font=("Berlin Sans FB",12),bg="#2ec4b6",relief=RIDGE,border=2,width=36)
+    # update_photo_btn.grid(row=0,column=1)
 
     #right label fram
     right_frame=LabelFrame(main_frame,bd=0,relief=RIDGE,bg="#cbf3f0",text=" Student data ",font=("Berlin Sans FB",20))
@@ -161,13 +177,13 @@ class Student:
     search_frame=LabelFrame(right_frame,bd=0,relief=RIDGE,bg="#cbf3f0",text=" Search data ",font=("Berlin Sans FB",16))
     search_frame.place(x=8,y=15,width=680,height=130)
 
-    search_label=Label(search_frame,text=" Search By: ",font=("Berlin Sans FB",12,),bg="#cbf3f0")
+    search_label=Label(search_frame,text=" Search By ID: ",font=("Berlin Sans FB",12,),bg="#cbf3f0")
     search_label.grid(row=0,column=0,padx=5,pady=(20,10),sticky=E)
 
-    search_combo=ttk.Combobox(search_frame,font=("Berlin Sans FB",12,),width=10, state="read only")
-    search_combo["values"]=("select","Admission number","Name")
-    search_combo.current(0)
-    search_combo.grid(row=0,column=1,padx=5,pady=10,sticky=W)
+    # search_combo=ttk.Combobox(search_frame,font=("Berlin Sans FB",12,),width=10, state="read only")
+    # search_combo["values"]=("select","Admission number","Name")
+    # search_combo.current(0)
+    # search_combo.grid(row=0,column=1,padx=5,pady=10,sticky=W)
 
     search_entry=ttk.Entry(search_frame,width=15,font=("Berlin Sans FB",12))
     search_entry.grid(row=0,column=2,padx=5,pady=10,sticky=E)
@@ -175,10 +191,10 @@ class Student:
     btn_frame_3=Frame(search_frame,bd=0,relief=RIDGE,bg="#cbf3f0")
     btn_frame_3.place(x=8,y=60,width=660,height=40)
 
-    search_btn=Button(btn_frame_3,text="Search",font=("Berlin Sans FB",12),bg="#2ec4b6",relief=RIDGE,border=2,width=15)
+    search_btn=Button(btn_frame_3,text="Search",command =  lambda : self.search_by_id(search_entry.get()),font=("Berlin Sans FB",12),bg="#2ec4b6",relief=RIDGE,border=2,width=15)
     search_btn.grid(row=0,column=0,padx=(5,140))
 
-    show_all_btn=Button(btn_frame_3,text="Show all",font=("Berlin Sans FB",12),bg="#2ec4b6",relief=RIDGE,border=2,width=15)
+    show_all_btn=Button(btn_frame_3,text="Show all",command=self.get_data,font=("Berlin Sans FB",12),bg="#2ec4b6",relief=RIDGE,border=2,width=15)
     show_all_btn.grid(row=0,column=1,padx=(140,5))
 
 
@@ -229,8 +245,27 @@ class Student:
     #fodder
     fodder_frame=Frame(background_frame, bg="#2ec4b6")
     fodder_frame.place(x=0,y=screen_height-160,width=screen_width,height=screen_height)
+  
+  #===========FUNCTION DECLARATION==============  
+  def search_by_id(self,got_id):
+    if got_id == "":
+      messagebox.showerror("Error","Please enter an ID",parent = self.root)
+    else:
+      try:
+        conn = mysql.connector.connect(host = "localhost",user = 'root',password = '1234' , database = "attendance_manager")
+        my_cursor = conn.cursor()
+        sql_query = "select * from student_data WHERE (`id` = " + str(got_id) + ");"
+        my_cursor.execute(sql_query)
+        data = my_cursor.fetchall()
+        if len(data) != 0:
+          self.student_table.delete(*self.student_table.get_children())
+          for i in data:
+            self.student_table.insert("",END,values=i)
+        conn.commit()
+        conn.close()
+      except Exception as es:
+        messagebox.showerror("Error",es,parent = self.root)
 
-  #===========FUNCTION DECLARATION==============
   def get_data(self):
       conn = mysql.connector.connect(host = "localhost",user = 'root',password = '1234' , database = "attendance_manager")
       my_cursor = conn.cursor()
@@ -240,10 +275,12 @@ class Student:
         self.student_table.delete(*self.student_table.get_children())
         for i in data:
           self.student_table.insert("",END,values=i)
+      else:
+        self.student_table.delete(*self.student_table.get_children())
+
       conn.commit()
       conn.close()
-
-
+ 
   def add_data(self):
     if self.var_dept.get() == "select depratment" or self.var_course.get() == "select course" or self.var_year.get() == "select Year" or self.var_sem.get() == "select semester":
       messagebox.showerror("Error","All the Fields are required",parent = self.root)
@@ -258,8 +295,8 @@ class Student:
         conn.commit()
         self.get_data()
         conn.close()
-        messagebox.showinfo("SUCCESS","DATA INSERTED SUCCESSFULLY",parent = self.root)
-        self.var_id.set(" ")
+        messagebox.showinfo("SUCCESS","DATA INSERTED SUCCESSFULLY.....NOW YOUR PHOTO WILL BE TAKEN",parent = self.root)
+        
         self.var_name.set(" ")
         self.var_gen.set("select gender")
         self.var_dob.set(" ")
@@ -268,9 +305,14 @@ class Student:
         self.var_year.set("select Year")
         self.var_sem.set("select semester")
         self.var_email.set(" ")
+        try :   
+          self.take_photo(self.var_id.get())
+          messagebox.showinfo("Success","Your photos are taken")
+        except Exception as es:
+          messagebox.showerror("Error",es,parent = self.root)
+        self.var_id.set(" ")
       except Exception as es:
         messagebox.showerror("Error",es,parent = self.root)
-
 
   def get_cursor(self,event = ""):
     cursor_focus = self.student_table.focus()
@@ -323,7 +365,7 @@ class Student:
     if self.var_id == "":
       messagebox.showerror("Error","ID required",parent = self.root)
     else:
-      delete = messagebox.askyesno("Delete","Do you want to delete the information of student with ID = "+ str(self.var_id),parent = self.root)
+      delete = messagebox.askyesno("Delete","Do you want to delete the information of student with ID = "+ str(self.var_id.get()),parent = self.root)
       if delete > 0:
         try:
           conn = mysql.connector.connect(host = "localhost",user = 'root',password = '1234' , database = "attendance_manager")
@@ -333,8 +375,8 @@ class Student:
           my_cursor.execute(sql,val)
           messagebox.showinfo("SUCCESS","Data deleted successfully",parent = self.root)
           conn.commit()
-          self.get_data()
           conn.close()
+          self.get_data()
           self.var_id.set(" ")
           self.var_name.set(" ")
           self.var_gen.set("select gender")
@@ -346,7 +388,9 @@ class Student:
           self.var_email.set(" ")
         except Exception as es:
           messagebox.showerror("Error",es,parent = self.root)
+          self.get_data()
       elif not delete:
+        self.get_data()
         return
 
   def reset_data(self):
@@ -360,6 +404,22 @@ class Student:
     self.var_sem.set("select semester")
     self.var_email.set(" ")
 
+  def take_photo(self,got_id):
+    #got_id = self.var_id.get()
+    video_capture = cv2.VideoCapture(0)
+    no_of_photo = 0
+    while True:
+      _,img = video_capture.read() 
+      [img1,val] = classify(img)
+      if val:
+        no_of_photo = no_of_photo + 1    
+        save_img(img,got_id,no_of_photo) 
+        img = img1 
+      cv2.imshow("Photo Capture",img)
+      if cv2.waitKey(1) == 13 or no_of_photo > 9:
+        break
+    video_capture.release()
+    cv2.destroyAllWindows()
 
 
 

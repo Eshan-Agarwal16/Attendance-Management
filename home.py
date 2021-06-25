@@ -19,11 +19,14 @@ class student_attendance_system:
 
         self.root = root
         self.root.title("Attendance Manager")
-        self.root.state('zoomed')
+        #self.root.state('zoomed')
         self.root['background'] = "#cbf3f0"
+        self.root.geometry("1536x864+0+0")
         
-        screen_width = 1536
+        screen_width = self.root.winfo_screenwidth()
+        screen_height = self.root.winfo_screenheight()
         screen_height = 864
+        screen_width = 1536
         print(screen_height,screen_width)
         
         
