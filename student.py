@@ -4,10 +4,9 @@ from PIL import Image, ImageTk
 from tkinter import messagebox
 import mysql.connector
 import cv2
-import os
 
 def save_img(img,got_id,no_of_photo):
-  img_name = "Data/" + str(got_id) + "_" + str(no_of_photo) + ".jpg"
+  img_name = "Data/user."+ str(got_id) + "." + str(no_of_photo) + ".jpg"
   cv2.imwrite(img_name,img)
 
 
@@ -276,6 +275,9 @@ class Student:
         self.student_table.delete(*self.student_table.get_children())
         for i in data:
           self.student_table.insert("",END,values=i)
+      else:
+        self.student_table.delete(*self.student_table.get_children())
+
       conn.commit()
       conn.close()
  
@@ -357,7 +359,7 @@ class Student:
     if self.var_id == "":
       messagebox.showerror("Error","ID required",parent = self.root)
     else:
-      delete = messagebox.askyesno("Delete","Do you want to delete the information of student with ID = "+ str(self.var_id),parent = self.root)
+      delete = messagebox.askyesno("Delete","Do you want to delete the information of student with ID = "+ str(self.var_id.get()),parent = self.root)
       if delete > 0:
         try:
           conn = mysql.connector.connect(host = "localhost",user = 'root',password = '1234' , database = "attendance_manager")
@@ -367,8 +369,8 @@ class Student:
           my_cursor.execute(sql,val)
           messagebox.showinfo("SUCCESS","Data deleted successfully",parent = self.root)
           conn.commit()
-          self.get_data()
           conn.close()
+          self.get_data()
           self.var_id.set(" ")
           self.var_name.set(" ")
           self.var_gen.set("select gender")
@@ -380,7 +382,9 @@ class Student:
           self.var_email.set(" ")
         except Exception as es:
           messagebox.showerror("Error",es,parent = self.root)
+          self.get_data()
       elif not delete:
+        self.get_data()
         return
 
   def reset_data(self):
@@ -406,7 +410,7 @@ class Student:
         save_img(img,got_id,no_of_photo) 
         img = img1 
       cv2.imshow("Photo Capture",img)
-      if cv2.waitKey(1) & 0xFF == ord('q') or no_of_photo > 10:
+      if cv2.waitKey(1) == 13 or no_of_photo > 9:
         break
     video_capture.release()
     cv2.destroyAllWindows()
