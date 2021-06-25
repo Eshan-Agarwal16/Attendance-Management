@@ -13,7 +13,7 @@ def save_img(img,got_id,no_of_photo):
 def classify(img):
   gray_img = cv2.cvtColor(img , cv2.COLOR_BGR2GRAY)
   face_classifier = cv2.CascadeClassifier("haarcascade_frontalface_default.xml")
-  all_cordi = face_classifier.detectMultiScale(gray_img,1.2,5)
+  all_cordi = face_classifier.detectMultiScale(gray_img,1.2,8)
   if len(all_cordi) == 0:
     return [img,0]
   for (x,y,w,h) in all_cordi:
@@ -160,14 +160,14 @@ class Student:
 
 
     #button frame 2
-    btn_frame_2=Frame(left_frame,bd=0,relief=RIDGE,bg="#cbf3f0")
-    btn_frame_2.place(x=8,y=455,width=680,height=40)
+    # btn_frame_2=Frame(left_frame,bd=0,relief=RIDGE,bg="#cbf3f0")
+    # btn_frame_2.place(x=8,y=455,width=680,height=40)
 
-    take_photo_btn=Button(btn_frame_2,text="Take Photo Samples",command = self.take_photo,font=("Berlin Sans FB",12),bg="#2ec4b6",relief=RIDGE,border=2,width=36)
-    take_photo_btn.grid(row=0,column=0)
+    # take_photo_btn=Button(btn_frame_2,text="Take Photo Samples",command = self.take_photo,font=("Berlin Sans FB",12),bg="#2ec4b6",relief=RIDGE,border=2,width=36)
+    # take_photo_btn.grid(row=0,column=0)
 
-    update_photo_btn=Button(btn_frame_2,text="Update Photo Samples",font=("Berlin Sans FB",12),bg="#2ec4b6",relief=RIDGE,border=2,width=36)
-    update_photo_btn.grid(row=0,column=1)
+    # update_photo_btn=Button(btn_frame_2,text="Update Photo Samples",font=("Berlin Sans FB",12),bg="#2ec4b6",relief=RIDGE,border=2,width=36)
+    # update_photo_btn.grid(row=0,column=1)
 
     #right label fram 
     right_frame=LabelFrame(main_frame,bd=0,relief=RIDGE,bg="#cbf3f0",text=" Student data ",font=("Berlin Sans FB",20))
@@ -295,8 +295,8 @@ class Student:
         conn.commit()
         self.get_data()
         conn.close()
-        messagebox.showinfo("SUCCESS","DATA INSERTED SUCCESSFULLY",parent = self.root)
-        self.var_id.set(" ")
+        messagebox.showinfo("SUCCESS","DATA INSERTED SUCCESSFULLY.....NOW YOUR PHOTO WILL BE TAKEN",parent = self.root)
+        
         self.var_name.set(" ")
         self.var_gen.set("select gender")
         self.var_dob.set(" ")
@@ -305,6 +305,12 @@ class Student:
         self.var_year.set("select Year")
         self.var_sem.set("select semester")
         self.var_email.set(" ")
+        try :   
+          self.take_photo(self.var_id.get())
+          messagebox.showinfo("Success","Your photos are taken")
+        except Exception as es:
+          messagebox.showerror("Error",es,parent = self.root)
+        self.var_id.set(" ")
       except Exception as es:
         messagebox.showerror("Error",es,parent = self.root)
 
@@ -398,8 +404,8 @@ class Student:
     self.var_sem.set("select semester")
     self.var_email.set(" ")
 
-  def take_photo(self):
-    got_id = self.var_id.get()
+  def take_photo(self,got_id):
+    #got_id = self.var_id.get()
     video_capture = cv2.VideoCapture(0)
     no_of_photo = 0
     while True:
