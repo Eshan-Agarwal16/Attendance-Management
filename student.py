@@ -161,13 +161,13 @@ class Student:
     search_frame=LabelFrame(right_frame,bd=0,relief=RIDGE,bg="#cbf3f0",text=" Search data ",font=("Berlin Sans FB",16))
     search_frame.place(x=8,y=15,width=680,height=130)
 
-    search_label=Label(search_frame,text=" Search By: ",font=("Berlin Sans FB",12,),bg="#cbf3f0")
+    search_label=Label(search_frame,text=" Search By ID: ",font=("Berlin Sans FB",12,),bg="#cbf3f0")
     search_label.grid(row=0,column=0,padx=5,pady=(20,10),sticky=E)
 
-    search_combo=ttk.Combobox(search_frame,font=("Berlin Sans FB",12,),width=10, state="read only")
-    search_combo["values"]=("select","Admission number","Name")
-    search_combo.current(0)
-    search_combo.grid(row=0,column=1,padx=5,pady=10,sticky=W)
+    # search_combo=ttk.Combobox(search_frame,font=("Berlin Sans FB",12,),width=10, state="read only")
+    # search_combo["values"]=("select","Admission number","Name")
+    # search_combo.current(0)
+    # search_combo.grid(row=0,column=1,padx=5,pady=10,sticky=W)
 
     search_entry=ttk.Entry(search_frame,width=15,font=("Berlin Sans FB",12))
     search_entry.grid(row=0,column=2,padx=5,pady=10,sticky=E)
@@ -175,10 +175,10 @@ class Student:
     btn_frame_3=Frame(search_frame,bd=0,relief=RIDGE,bg="#cbf3f0")
     btn_frame_3.place(x=8,y=60,width=660,height=40)
 
-    search_btn=Button(btn_frame_3,text="Search",font=("Berlin Sans FB",12),bg="#2ec4b6",relief=RIDGE,border=2,width=15)
+    search_btn=Button(btn_frame_3,text="Search",command =  lambda : self.search_by_id(search_entry.get()),font=("Berlin Sans FB",12),bg="#2ec4b6",relief=RIDGE,border=2,width=15)
     search_btn.grid(row=0,column=0,padx=(5,140))
 
-    show_all_btn=Button(btn_frame_3,text="Show all",font=("Berlin Sans FB",12),bg="#2ec4b6",relief=RIDGE,border=2,width=15)
+    show_all_btn=Button(btn_frame_3,text="Show all",command=self.get_data,font=("Berlin Sans FB",12),bg="#2ec4b6",relief=RIDGE,border=2,width=15)
     show_all_btn.grid(row=0,column=1,padx=(140,5))
 
 
@@ -231,6 +231,28 @@ class Student:
     fodder_frame.place(x=0,y=screen_height-160,width=screen_width,height=screen_height)
   
   #===========FUNCTION DECLARATION==============  
+  def search_by_id(self,got_id):
+    if got_id == "":
+      messagebox.showerror("Error","Please enter an ID",parent = self.root)
+    else:
+      try:
+        conn = mysql.connector.connect(host = "localhost",user = 'root',password = '1234' , database = "attendance_manager")
+        my_cursor = conn.cursor()
+        sql_query = "select * from student_data WHERE (`id` = " + str(got_id) + ");"
+        my_cursor.execute(sql_query)
+        data = my_cursor.fetchall()
+        if len(data) != 0:
+          self.student_table.delete(*self.student_table.get_children())
+          for i in data:
+            self.student_table.insert("",END,values=i)
+        conn.commit()
+        conn.close()
+      except Exception as es:
+        messagebox.showerror("Error",es,parent = self.root)
+
+
+
+
   def get_data(self):
       conn = mysql.connector.connect(host = "localhost",user = 'root',password = '1234' , database = "attendance_manager")
       my_cursor = conn.cursor()
