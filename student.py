@@ -1,5 +1,5 @@
 from tkinter import *
-from tkinter import ttk 
+from tkinter import ttk
 from PIL import Image, ImageTk
 from tkinter import messagebox
 import mysql.connector
@@ -31,8 +31,8 @@ class Student:
     screen_height = 864
     # self.root.configure(bg="#cbf3f0")
 
-    screen_width = self.root.winfo_screenwidth()
-    screen_height = self.root.winfo_screenheight()
+    # screen_width = self.root.winfo_screenwidth()
+    # screen_height = self.root.winfo_screenheight()
 
     background_frame = Frame(self.root)
     background_frame.place(x=0,y=0,width=screen_width,height=screen_height)
@@ -55,8 +55,8 @@ class Student:
 
     main_frame=Frame(background_frame, bg="#cbf3f0",highlightthickness=20, highlightbackground="#cbf3f0",highlightcolor="#cbf3f0")
     main_frame.place(x=0,y=80,width=screen_width,height=screen_height-210)
-    
-    #left label fram 
+
+    #left label fram
     left_frame=LabelFrame(main_frame,bd=0,relief=RIDGE,bg="#cbf3f0",text=" Student details ",font=("Berlin Sans FB",20))
     left_frame.place(x=20,y=15,width=700,height=580)
 
@@ -74,7 +74,7 @@ class Student:
     dep_combo.grid(row=0,column=1,padx=2,pady=20,sticky=E)
 
     course_label=Label(current_course_frame,text=" Course: ",font=("Berlin Sans FB",12,),bg="#cbf3f0")
-    course_label.grid(row=0,column=2,padx=5,pady=20,sticky=E) 
+    course_label.grid(row=0,column=2,padx=5,pady=20,sticky=E)
 
     course_combo=ttk.Combobox(current_course_frame,textvariable=self.var_course,font=("Berlin Sans FB",12,),width=17, state="read only")
     course_combo["values"]=("select course","B.Tech","M.tech","PhD")
@@ -132,7 +132,7 @@ class Student:
     gender_combo["values"]=("select gender","Male","Female")
     gender_combo.current(0)
     gender_combo.grid(row=2,column=1,padx=5,pady=10,sticky=W)
-    
+
     # s = ttk.Style()                     # Creating style element
     # s.configure('style.TRadiobutton',background="#cbf3f0")
 
@@ -169,7 +169,7 @@ class Student:
     # update_photo_btn=Button(btn_frame_2,text="Update Photo Samples",font=("Berlin Sans FB",12),bg="#2ec4b6",relief=RIDGE,border=2,width=36)
     # update_photo_btn.grid(row=0,column=1)
 
-    #right label fram 
+    #right label fram
     right_frame=LabelFrame(main_frame,bd=0,relief=RIDGE,bg="#cbf3f0",text=" Student data ",font=("Berlin Sans FB",20))
     right_frame.place(x=740,y=15,width=700,height=580)
 
@@ -319,7 +319,7 @@ class Student:
     print("cursor_focus",cursor_focus)
     content = self.student_table.item(cursor_focus)
     data = content["values"]
-    print("data",data)    
+    print("data",data)
     self.var_id.set(data[0])
     self.var_name.set(data[1])
     self.var_gen.set(data[2])
@@ -421,7 +421,7 @@ class Student:
     video_capture.release()
     cv2.destroyAllWindows()
 
-      
+
 
 
 
