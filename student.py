@@ -362,9 +362,11 @@ class Student:
           return
 
   def delete_data(self):
-    if self.var_id == "":
-      messagebox.showerror("Error","ID required",parent = self.root)
-    else:
+    if self.var_dept.get() == "select depratment" or self.var_course.get() == "select course" or self.var_year.get() == "select Year" or self.var_sem.get() == "select semester":
+      messagebox.showerror("Error","Insufficient Data",parent = self.root)
+    elif self.var_email.get == "" or self.var_id.get() == "" or self.var_name.get() == "" or self.var_dob.get() == "" or self.var_gen.get() == "select gender" :
+      messagebox.showerror("Error","Insufficient Data",parent = self.root)
+  
       delete = messagebox.askyesno("Delete","Do you want to delete the information of student with ID = "+ str(self.var_id.get()),parent = self.root)
       if delete > 0:
         try:
