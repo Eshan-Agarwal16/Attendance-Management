@@ -2,6 +2,7 @@ from tkinter import *
 from tkinter import ttk
 from PIL import Image,ImageTk
 from student import Student
+from train import Train
 import webbrowser as wb
 global screen_width 
 
@@ -94,10 +95,10 @@ class student_attendance_system:
         frame_check3 = Frame(button_frame,bg = "white")
         frame_check3.place(x=550,y=0,width = 250,height = 212.5)
 
-        button_text_3 = Button(frame_check3,text = "Train Data",cursor = "hand2",font = ("Berlin Sans FB",14),relief=FLAT)
+        button_text_3 = Button(frame_check3,command = self.train,text = "Train Data",cursor = "hand2",font = ("Berlin Sans FB",14),relief=FLAT)
         button_text_3.place(x = 0,y = 187.5,width = 250,height =25)
 
-        check_button3 = Button(frame_check3,image = self.train_data_img_photo,cursor = "hand2",bd = 0 )
+        check_button3 = Button(frame_check3,command = self.train,image = self.train_data_img_photo,cursor = "hand2",bd = 0 )
         check_button3.place(x=1,y=1)
         
         frame_check4 = Frame(button_frame,bg = "white")
@@ -134,6 +135,10 @@ class student_attendance_system:
     def student_detials(self):
         self.new_window=Toplevel(self.root)
         self.app=Student(self.new_window)
+
+    def train(self):
+        self.new_window=Toplevel(self.root)
+        self.app=Train(self.new_window)
 
         
 
