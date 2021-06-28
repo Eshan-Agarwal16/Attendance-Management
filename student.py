@@ -307,7 +307,7 @@ class Student:
         self.var_email.set(" ")
         try :   
           self.take_photo(self.var_id.get())
-          messagebox.showinfo("Success","Your photos are taken")
+          messagebox.showinfo("Success","Your photos are taken",parent = self.root)
         except Exception as es:
           messagebox.showerror("Error",es,parent = self.root)
         self.var_id.set(" ")
