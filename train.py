@@ -14,8 +14,8 @@ class Train:
     self.root.title("Attendance Manager")
     self.root.state('zoomed')
 
-    screen_width = 1536
-    screen_height = 864
+    screen_width = self.root.winfo_screenwidth()
+    screen_height = self.root.winfo_screenheight()
     self.root.configure(bg="#cbf3f0")
 
     # screen_width = self.root.winfo_screenwidth()
@@ -38,7 +38,7 @@ class Train:
     
 
   def train_classifier(self):
-    data_dir=("data")
+    data_dir=("Data")
     path=[os.path.join(data_dir,file) for file in os.listdir(data_dir)]
 
     faces=[]
@@ -46,7 +46,7 @@ class Train:
 
     for image in path:
       img=Image.open(image).convert('L') #grey scale convertion
-      imageNp=np.array(img,'unit8')
+      imageNp=np.array(img,'uint8')
       id=int(os.path.split(image)[1].split('.')[1])
 
       faces.append(imageNp)
