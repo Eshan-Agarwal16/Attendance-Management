@@ -25,8 +25,8 @@ class Student:
 
     self.root = root
     self.root.title("Attendance Manager")
-    self.root.state('zoomed')
-
+    #self.root.state('zoomed')
+    self.root.geometry("1536x864+0+0")
     screen_width = 1536
     screen_height = 864
     # self.root.configure(bg="#cbf3f0")
@@ -362,38 +362,36 @@ class Student:
           return
 
   def delete_data(self):
-    if self.var_dept.get() == "select depratment" or self.var_course.get() == "select course" or self.var_year.get() == "select Year" or self.var_sem.get() == "select semester":
-      messagebox.showerror("Error","Insufficient Data",parent = self.root)
-    elif self.var_email.get == "" or self.var_id.get() == "" or self.var_name.get() == "" or self.var_dob.get() == "" or self.var_gen.get() == "select gender" :
-      messagebox.showerror("Error","Insufficient Data",parent = self.root)
-  
-      delete = messagebox.askyesno("Delete","Do you want to delete the information of student with ID = "+ str(self.var_id.get()),parent = self.root)
-      if delete > 0:
-        try:
-          conn = mysql.connector.connect(host = "localhost",user = 'root',password = '1234' , database = "attendance_manager")
-          my_cursor = conn.cursor()
-          sql = "DELETE FROM student_data WHERE (`id` = %s);"
-          val = (self.var_id.get(),)
-          my_cursor.execute(sql,val)
-          messagebox.showinfo("SUCCESS","Data deleted successfully",parent = self.root)
-          conn.commit()
-          conn.close()
+      if self.var_id == "":
+        messagebox.showerror("Error","ID required",parent = self.root)
+      else:
+        delete = messagebox.askyesno("Delete","Do you want to delete the information of student with ID = "+ str(self.var_id.get()),parent = self.root)
+        if delete > 0:
+          try:
+            conn = mysql.connector.connect(host = "localhost",user = 'root',password = '1234' , database = "attendance_manager")
+            my_cursor = conn.cursor()
+            sql = "DELETE FROM student_data WHERE (`id` = %s);"
+            val = (self.var_id.get(),)
+            my_cursor.execute(sql,val)
+            messagebox.showinfo("SUCCESS","Data deleted successfully",parent = self.root)
+            conn.commit()
+            conn.close()
+            self.get_data()
+            self.var_id.set(" ")
+            self.var_name.set(" ")
+            self.var_gen.set("select gender")
+            self.var_dob.set(" ")
+            self.var_dept.set("select department")
+            self.var_course.set("select course")
+            self.var_year.set("select Year")
+            self.var_sem.set("select semester")
+            self.var_email.set(" ")
+          except Exception as es:
+            messagebox.showerror("Error",es,parent = self.root)
+            self.get_data()
+        elif not delete:
           self.get_data()
-          self.var_id.set(" ")
-          self.var_name.set(" ")
-          self.var_gen.set("select gender")
-          self.var_dob.set(" ")
-          self.var_dept.set("select department")
-          self.var_course.set("select course")
-          self.var_year.set("select Year")
-          self.var_sem.set("select semester")
-          self.var_email.set(" ")
-        except Exception as es:
-          messagebox.showerror("Error",es,parent = self.root)
-          self.get_data()
-      elif not delete:
-        self.get_data()
-        return
+          return
 
   def reset_data(self):
     self.var_id.set(" ")
@@ -418,7 +416,7 @@ class Student:
         save_img(img,got_id,no_of_photo) 
         img = img1 
       cv2.imshow("Photo Capture",img)
-      if cv2.waitKey(1) == 13 or no_of_photo > 9:
+      if cv2.waitKey(1) == 13 or no_of_photo > 99:
         break
     video_capture.release()
     cv2.destroyAllWindows()

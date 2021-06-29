@@ -4,6 +4,9 @@ from PIL import Image,ImageTk
 from student import Student
 from train import Train
 import webbrowser as wb
+import cv2
+import mysql.connector
+
 global screen_width 
 
 #cbf3f0
@@ -11,6 +14,43 @@ global screen_width
 
 def github_link():
     wb.open("https://github.com/Eshan-Agarwal16/Attendance-Management")
+
+def get_stud_data(id):
+    conn = mysql.connector.connect(host = "localhost",user = 'root',password = '1234' , database = "attendance_manager")
+    my_cursor = conn.cursor()
+    my_cursor.execute("select name from student_data where id = " + str(id) + ";")
+    stud_name = my_cursor.fetchone()
+    my_cursor.execute("select dept from student_data where id = " + str(id) + ";")
+    stud_dept = my_cursor.fetchone()
+    return [id,stud_name[0],stud_dept[0]]
+    
+
+
+def draw_boundary(img):
+    gray_img = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
+    faceCascade = cv2.CascadeClassifier("haarcascade_frontalface_default.xml")
+    features = faceCascade.detectMultiScale(gray_img,1.1,10)
+    clf=cv2.face.LBPHFaceRecognizer_create()
+    clf.read("classifier.xml")
+    for (x,y,w,h) in features:
+        #cv2.rectangle(img,(x,y),(x+w,y+h),(0,255,0),2)
+        id,predict = clf.predict(gray_img[y:y+h,x:x+h])
+        confidence = int((100*(1-predict/300)))
+        if confidence>70:
+            cv2.rectangle(img,(x,y),(x+w,y+h),(0,255,0),2)
+            [stud_id,stud_name,stud_dep] = get_stud_data(id)
+            stud_name = "Name : " + stud_name
+            stud_dep = "Department : " + stud_dep
+            stud_id = "ID : " + str(stud_id)
+            cv2.putText(img,stud_id,(x,y-55),cv2.FONT_HERSHEY_COMPLEX,0.8,(0,255,0),3)
+            cv2.putText(img,stud_name,(x,y-30),cv2.FONT_HERSHEY_COMPLEX,0.8,(0,255,0),3)
+            cv2.putText(img,stud_dep,(x,y-5),cv2.FONT_HERSHEY_COMPLEX,0.8,(0,255,0),3)
+            print("NAME : ",stud_name,"CONFIDENCE : ",confidence)
+        else:
+            cv2.rectangle(img,(x,y),(x+w,y+h),(0,0,255),2)
+            cv2.putText(img,"UKNOWN FACE",(x,y-5),cv2.FONT_HERSHEY_COMPLEX,0.8,(0,0,255),3)
+            print("UNKNOWN FACE WITH CONFIDENCE : ",confidence)
+    return img
 
 
 
@@ -86,10 +126,10 @@ class student_attendance_system:
         frame_check2 = Frame(button_frame,bg = "white")
         frame_check2.place(x=275,y=0,width = 250,height = 212.5)
 
-        button_text_2 = Button(frame_check2,text = "Face Recognition",cursor = "hand2",font = ("Berlin Sans FB",14),relief=FLAT)
+        button_text_2 = Button(frame_check2,text = "Face Recognition",command = self.face_recog,cursor = "hand2",font = ("Berlin Sans FB",14),relief=FLAT)
         button_text_2.place(x = 0,y = 187.5,width = 250,height =25)
         
-        check_button2 = Button(frame_check2,image = self.developer_img_photo,cursor = "hand2",bd = 0 )
+        check_button2 = Button(frame_check2,image = self.developer_img_photo,command = self.face_recog,cursor = "hand2",bd = 0 )
         check_button2.place(x=1,y=1)
 
         frame_check3 = Frame(button_frame,bg = "white")
@@ -140,7 +180,17 @@ class student_attendance_system:
         self.new_window=Toplevel(self.root)
         self.app=Train(self.new_window)
 
-        
+    def face_recog(self):
+        video_cap = cv2.VideoCapture(0)
+        while True:
+            _,img = video_cap.read()
+            img = draw_boundary(img)
+            cv2.imshow("FACE RECOGNITION",img)
+            if cv2.waitKey(1)==13:
+                break
+        video_cap.release()
+        cv2.destroyAllWindows()
+
 
     
 
