@@ -8,6 +8,8 @@ from datetime import datetime
 import webbrowser as wb
 import cv2
 import mysql.connector
+import subprocess
+
 
 global screen_width 
 
@@ -164,10 +166,10 @@ class student_attendance_system:
         frame_check5 = Frame(button_frame,bg = "#cbf3f0")
         frame_check5.place(x=275,y=237.5,width = 250,height = 212.5)
 
-        button_text_5 = Button(frame_check5,text = "Attendance",cursor = "hand2",bg = "#cbf3f0",font = ("Berlin Sans FB",14),relief=FLAT)
+        button_text_5 = Button(frame_check5,command=lambda : subprocess.Popen(["record.csv"],shell=True),text = "Attendance",cursor = "hand2",bg = "#cbf3f0",font = ("Berlin Sans FB",14),relief=FLAT)
         button_text_5.place(x = 0,y = 187.5,width = 250,height =25)
 
-        check_button5 = Button(frame_check5,image = self.face_img_photo,bg = "#cbf3f0",cursor = "hand2",bd = 0 )
+        check_button5 = Button(frame_check5,command=lambda : subprocess.Popen(["record.csv"],shell=True),image = self.face_img_photo,bg = "#cbf3f0",cursor = "hand2",bd = 0 )
         check_button5.place(x=1,y=1)
         
         frame_check6 = Frame(button_frame,bg = "#cbf3f0")
