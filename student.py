@@ -329,10 +329,10 @@ class Student:
 
   def get_cursor(self,event = ""):
     cursor_focus = self.student_table.focus()
-    print("cursor_focus",cursor_focus)
+    # print("cursor_focus",cursor_focus)
     content = self.student_table.item(cursor_focus)
     data = content["values"]
-    print("data",data)
+    # print("data",data)
     self.var_id.set(data[0])
     self.var_name.set(data[1])
     self.var_gen.set(data[2])

@@ -36,7 +36,7 @@ def draw_boundary(img):
     for (x,y,w,h) in features:
         id,predict = clf.predict(gray_img[y:y+h,x:x+h])
         confidence = int((100*(1-predict/300)))
-        if confidence>77:
+        if confidence>55:
             cv2.rectangle(img,(x,y),(x+w,y+h),(0,255,0),2)
             [stud_id,stud_name,stud_dep] = get_stud_data(id)
             attendance(stud_id,stud_dep,stud_name)
@@ -46,11 +46,11 @@ def draw_boundary(img):
             cv2.putText(img,stud_id,(x,y-55),cv2.FONT_HERSHEY_COMPLEX,0.8,(0,255,0),3)
             cv2.putText(img,stud_name,(x,y-30),cv2.FONT_HERSHEY_COMPLEX,0.8,(0,255,0),3)
             cv2.putText(img,stud_dep,(x,y-5),cv2.FONT_HERSHEY_COMPLEX,0.8,(0,255,0),3)
-            print("NAME : ",stud_name,"CONFIDENCE : ",confidence)
+            # print("NAME : ",stud_name,"CONFIDENCE : ",confidence)
         else:
             cv2.rectangle(img,(x,y),(x+w,y+h),(0,0,255),2)
             cv2.putText(img,"UKNOWN FACE",(x,y-5),cv2.FONT_HERSHEY_COMPLEX,0.8,(0,0,255),3)
-            print("UNKNOWN FACE WITH CONFIDENCE : ",confidence)
+            # print("UNKNOWN FACE WITH CONFIDENCE : ",confidence)
     return img
 
 
@@ -63,7 +63,7 @@ def attendance(roll_no,dep,name):
             roll_list.append(val[0])
         if(str(roll_no) not in roll_list):
             curr=datetime.now()
-            curr_date=curr.strftime("%d/%m/%Y")
+            curr_date=curr.strftime("%m/%d/%Y")
             curr_time=curr.strftime("%H:%M:%S")
             f.writelines(f"\n{roll_no},{name},{dep},{curr_time},{curr_date},present")
 
