@@ -36,7 +36,7 @@ def draw_boundary(img):
     for (x,y,w,h) in features:
         id,predict = clf.predict(gray_img[y:y+h,x:x+h])
         confidence = int((100*(1-predict/300)))
-        if confidence>55:
+        if confidence>77:
             cv2.rectangle(img,(x,y),(x+w,y+h),(0,255,0),2)
             [stud_id,stud_name,stud_dep] = get_stud_data(id)
             attendance(stud_id,stud_dep,stud_name)
@@ -121,62 +121,62 @@ class student_attendance_system:
         self.face_img_photo = ImageTk.PhotoImage(face_img)
         self.attendance_img_photo = ImageTk.PhotoImage(attendance_img)
 
-        # frame_text = Frame(frame_check1,bg = "white")
+        # frame_text = Frame(frame_check1,bg = "#cbf3f0")
         # frame_text.place(x = 0,y = 187.5,width = 250,height =25 ) 
 
 
-        frame_check1 = Frame(button_frame,bg = "white")
+        frame_check1 = Frame(button_frame,bg = "#cbf3f0")
         frame_check1.place(x=0,y=0,width = 250,height = 212.5)
 
-        button_text_1 = Button(frame_check1,command=self.student_detials,text = "Student Info",cursor = "hand2",font = ("Berlin Sans FB",14),relief=FLAT)
+        button_text_1 = Button(frame_check1,command=self.student_detials,text = "Student Info",cursor = "hand2",bg = "#cbf3f0",font = ("Berlin Sans FB",14),relief=FLAT)
         button_text_1.place(x = 0,y = 187.5,width = 250,height =25)
 
-        check_button1 = Button(frame_check1,command=self.student_detials,image = self.student_img_photo,cursor = "hand2",bd = 0 )
+        check_button1 = Button(frame_check1,command=self.student_detials,image = self.student_img_photo,bg = "#cbf3f0",cursor = "hand2",bd = 0 )
         check_button1.place(x=1,y=1)
 
-        frame_check2 = Frame(button_frame,bg = "white")
+        frame_check2 = Frame(button_frame,bg = "#cbf3f0")
         frame_check2.place(x=275,y=0,width = 250,height = 212.5)
 
-        button_text_2 = Button(frame_check2,text = "Face Recognition",command = self.face_recog,cursor = "hand2",font = ("Berlin Sans FB",14),relief=FLAT)
+        button_text_2 = Button(frame_check2,text = "Face Recognition",command = self.face_recog,bg = "#cbf3f0",cursor = "hand2",font = ("Berlin Sans FB",14),relief=FLAT)
         button_text_2.place(x = 0,y = 187.5,width = 250,height =25)
         
-        check_button2 = Button(frame_check2,image = self.developer_img_photo,command = self.face_recog,cursor = "hand2",bd = 0 )
+        check_button2 = Button(frame_check2,image = self.developer_img_photo,command = self.face_recog,bg = "#cbf3f0",cursor = "hand2",bd = 0 )
         check_button2.place(x=1,y=1)
 
-        frame_check3 = Frame(button_frame,bg = "white")
+        frame_check3 = Frame(button_frame,bg = "#cbf3f0")
         frame_check3.place(x=550,y=0,width = 250,height = 212.5)
 
-        button_text_3 = Button(frame_check3,command = self.train,text = "Train Data",cursor = "hand2",font = ("Berlin Sans FB",14),relief=FLAT)
+        button_text_3 = Button(frame_check3,command = self.train,text = "Train Data",cursor = "hand2",bg = "#cbf3f0",font = ("Berlin Sans FB",14),relief=FLAT)
         button_text_3.place(x = 0,y = 187.5,width = 250,height =25)
 
-        check_button3 = Button(frame_check3,command = self.train,image = self.train_data_img_photo,cursor = "hand2",bd = 0 )
+        check_button3 = Button(frame_check3,command = self.train,image = self.train_data_img_photo,bg = "#cbf3f0",cursor = "hand2",bd = 0 )
         check_button3.place(x=1,y=1)
         
-        frame_check4 = Frame(button_frame,bg = "white")
+        frame_check4 = Frame(button_frame,bg = "#cbf3f0")
         frame_check4.place(x=0,y=237.5,width = 250,height = 212.5)
 
-        button_text_4 = Button(frame_check4,text = "Github",cursor = "hand2",command = github_link,font = ("Berlin Sans FB",14),relief=FLAT)
+        button_text_4 = Button(frame_check4,text = "Github",cursor = "hand2",bg = "#cbf3f0",command = github_link,font = ("Berlin Sans FB",14),relief=FLAT)
         button_text_4.place(x = 0,y = 187.5,width = 250,height =25)
 
-        check_button4 = Button(frame_check4,image = self.photos_img_photo,cursor = "hand2",command = github_link,bd = 0 )
+        check_button4 = Button(frame_check4,image = self.photos_img_photo,cursor = "hand2",bg = "#cbf3f0",command = github_link,bd = 0 )
         check_button4.place(x=1,y=1)
         
-        frame_check5 = Frame(button_frame,bg = "white")
+        frame_check5 = Frame(button_frame,bg = "#cbf3f0")
         frame_check5.place(x=275,y=237.5,width = 250,height = 212.5)
 
-        button_text_5 = Button(frame_check5,text = "Attendance",cursor = "hand2",font = ("Berlin Sans FB",14),relief=FLAT)
+        button_text_5 = Button(frame_check5,text = "Attendance",cursor = "hand2",bg = "#cbf3f0",font = ("Berlin Sans FB",14),relief=FLAT)
         button_text_5.place(x = 0,y = 187.5,width = 250,height =25)
 
-        check_button5 = Button(frame_check5,image = self.face_img_photo,cursor = "hand2",bd = 0 )
+        check_button5 = Button(frame_check5,image = self.face_img_photo,bg = "#cbf3f0",cursor = "hand2",bd = 0 )
         check_button5.place(x=1,y=1)
         
-        frame_check6 = Frame(button_frame,bg = "white")
+        frame_check6 = Frame(button_frame,bg = "#cbf3f0")
         frame_check6.place(x=550,y=237.5,width = 250,height = 212.5)
 
-        button_text_6 = Button(frame_check6,text = "Help Desk",cursor = "hand2",font = ("Berlin Sans FB",14),relief=FLAT)
+        button_text_6 = Button(frame_check6,text = "Help Desk",cursor = "hand2",bg = "#cbf3f0",font = ("Berlin Sans FB",14),relief=FLAT)
         button_text_6.place(x = 0,y = 187.5,width = 250,height =25)
 
-        check_button6 = Button(frame_check6,image = self.attendance_img_photo,cursor = "hand2",bd = 0 )
+        check_button6 = Button(frame_check6,image = self.attendance_img_photo,bg = "#cbf3f0",cursor = "hand2",bd = 0 )
         check_button6.place(x=1,y=1)
 
         #ADDING BUTTONS OF MENUs

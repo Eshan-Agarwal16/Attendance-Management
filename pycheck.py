@@ -1,16 +1,13 @@
-import os
-import numpy as np
+from tkinter import *
+from tkinter import ttk
 from PIL import Image,ImageTk
-import cv2
 
-data_dir = ("data")
-path = [os.path.join(data_dir,file) for file in os.listdir(data_dir)]
-print(path)
-image =  path[0]
-img = Image.open(image).convert('L')
-ImageNp = np.array(img,'uint8')
-print(ImageNp)
-while True:
-    cv2.imshow("Test",ImageNp)
-    if cv2.waitKey(1)==13:
-        break
+root = Tk()
+root['background'] = "#cbf3f0"
+student_img = Image.open(r"Assets/1927248-200.png")
+student_img_photo = ImageTk.PhotoImage(student_img)
+label = Button(root,image=student_img_photo,border=0,bg = "#cbf3f0",fg = "#cbf3f0")
+label.pack()
+
+
+root.mainloop()
