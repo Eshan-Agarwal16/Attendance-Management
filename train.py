@@ -23,18 +23,9 @@ class Train:
 
     background_frame = Frame(self.root,bg="#cbf3f0")
     background_frame.place(x=0,y=0,width=screen_width,height=screen_height)
-    background_frame.grid_columnconfigure(0, weight=1)
-    background_frame.grid_columnconfigure(2, weight=1)
-    background_frame.grid_rowconfigure(1, weight=1)
-    background_frame.grid_rowconfigure(3, weight=1)
-
-    title_size = 70*screen_width
-    title_size = int(title_size/1920)
-    heading = Label(background_frame ,text = "TRAIN DATA",font = ("Berlin Sans FB",title_size),fg= "#2ec4b6",bg = "#cbf3f0",pady=10)
-    heading.grid(row=0,column=1)
-
-    train_data_btn=Button(background_frame,command=self.train_classifier,text="Train Data",font=("Berlin Sans FB",12),bg="#2ec4b6",relief=RIDGE,border=2,width=18)
-    train_data_btn.grid(row=2,column=1)
+    
+    self.train_classifier()
+    self.root.destroy()
     
 
   def train_classifier(self):
