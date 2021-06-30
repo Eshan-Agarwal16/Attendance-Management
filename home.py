@@ -63,7 +63,7 @@ def attendance(roll_no,dep,name):
             roll_list.append(val[0])
         if(str(roll_no) not in roll_list):
             curr=datetime.now()
-            curr_date=curr.strftime("%d/%m/%Y")
+            curr_date=curr.strftime("%m/%d/%Y")
             curr_time=curr.strftime("%H:%M:%S")
             f.writelines(f"\n{roll_no},{name},{dep},{curr_time},{curr_date},present")
 
