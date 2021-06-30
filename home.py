@@ -73,14 +73,12 @@ class student_attendance_system:
 
         self.root = root
         self.root.title("Attendance Manager")
-        #self.root.state('zoomed')
+        self.root.state('zoomed')
         self.root['background'] = "#cbf3f0"
-        self.root.geometry("1536x864+0+0")
+        #self.root.geometry("1536x864+0+0")
         
         screen_width = self.root.winfo_screenwidth()
         screen_height = self.root.winfo_screenheight()
-        screen_height = 864
-        screen_width = 1536
         print(screen_height,screen_width)
         
         
@@ -127,7 +125,7 @@ class student_attendance_system:
         # frame_text.place(x = 0,y = 187.5,width = 250,height =25 ) 
 
 
-        frame_check1 = Frame(button_frame,bg = "#2ec4b6")
+        frame_check1 = Frame(button_frame,bg = "white")
         frame_check1.place(x=0,y=0,width = 250,height = 212.5)
 
         button_text_1 = Button(frame_check1,command=self.student_detials,text = "Student Info",cursor = "hand2",font = ("Berlin Sans FB",14),relief=FLAT)
