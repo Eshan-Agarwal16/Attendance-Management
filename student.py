@@ -184,7 +184,7 @@ class Student:
     exit_img = Image.open(r"Assets/favicon.ico")
     self.exit_img_photo = ImageTk.PhotoImage(exit_img)
     
-    exit_button = Button(right_frame,image=self.exit_img_photo,command = quit)
+    exit_button = Button(right_frame,image=self.exit_img_photo,command = self.root.destroy)
     exit_button.place(x=655,y=500,height=30,width=35) 
     #===========search system================
     search_frame=LabelFrame(right_frame,bd=0,relief=RIDGE,bg="#cbf3f0",text=" Search data ",font=("Berlin Sans FB",16))
