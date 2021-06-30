@@ -24,8 +24,7 @@ def get_stud_data(id):
     stud_dept = my_cursor.fetchone()
     return [id,stud_name[0],stud_dept[0]]
     
-
-
+    
 def draw_boundary(img):
     gray_img = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
     faceCascade = cv2.CascadeClassifier("haarcascade_frontalface_default.xml")
@@ -33,10 +32,9 @@ def draw_boundary(img):
     clf=cv2.face.LBPHFaceRecognizer_create()
     clf.read("classifier.xml")
     for (x,y,w,h) in features:
-        #cv2.rectangle(img,(x,y),(x+w,y+h),(0,255,0),2)
         id,predict = clf.predict(gray_img[y:y+h,x:x+h])
         confidence = int((100*(1-predict/300)))
-        if confidence>70:
+        if confidence>73:
             cv2.rectangle(img,(x,y),(x+w,y+h),(0,255,0),2)
             [stud_id,stud_name,stud_dep] = get_stud_data(id)
             stud_name = "Name : " + stud_name

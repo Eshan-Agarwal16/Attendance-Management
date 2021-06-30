@@ -25,14 +25,14 @@ class Student:
 
     self.root = root
     self.root.title("Attendance Manager")
-    #self.root.state('zoomed')
-    self.root.geometry("1536x864+0+0")
-    screen_width = 1536
-    screen_height = 864
+    self.root.state('zoomed')
+    #self.root.geometry("1536x864+0+0")
+    #screen_width = 1536
+    #screen_height = 864
     # self.root.configure(bg="#cbf3f0")
 
-    # screen_width = self.root.winfo_screenwidth()
-    # screen_height = self.root.winfo_screenheight()
+    screen_width = self.root.winfo_screenwidth()
+    screen_height = self.root.winfo_screenheight()
 
     background_frame = Frame(self.root)
     background_frame.place(x=0,y=0,width=screen_width,height=screen_height)
@@ -54,11 +54,18 @@ class Student:
     self.var_email = StringVar()
 
     main_frame=Frame(background_frame, bg="#cbf3f0",highlightthickness=20, highlightbackground="#cbf3f0",highlightcolor="#cbf3f0")
-    main_frame.place(x=0,y=80,width=screen_width,height=screen_height-210)
+    main_frame.place(x=0,y=90,width=screen_width,height=screen_height-235)
 
-    #left label fram
+    main_frame_height = screen_height-235
+
+    #left label frame
+    left_frame_place_x = screen_width - 1400
+    left_frame_place_x = int(left_frame_place_x/3)
+
+    left_frame_y = int((main_frame_height-580)/2) - 20
+    
     left_frame=LabelFrame(main_frame,bd=0,relief=RIDGE,bg="#cbf3f0",text=" Student details ",font=("Berlin Sans FB",20))
-    left_frame.place(x=20,y=15,width=700,height=580)
+    left_frame.place(x=left_frame_place_x,y=left_frame_y,width=700,height=580)
 
 
     #current corse
@@ -169,9 +176,10 @@ class Student:
     # update_photo_btn=Button(btn_frame_2,text="Update Photo Samples",font=("Berlin Sans FB",12),bg="#2ec4b6",relief=RIDGE,border=2,width=36)
     # update_photo_btn.grid(row=0,column=1)
 
-    #right label fram
+    #right label frame
+    right_frame_place_x = screen_width - left_frame_place_x-700
     right_frame=LabelFrame(main_frame,bd=0,relief=RIDGE,bg="#cbf3f0",text=" Student data ",font=("Berlin Sans FB",20))
-    right_frame.place(x=740,y=15,width=700,height=580)
+    right_frame.place(x=right_frame_place_x,y=left_frame_y,width=700,height=580)
 
     #===========search system================
     search_frame=LabelFrame(right_frame,bd=0,relief=RIDGE,bg="#cbf3f0",text=" Search data ",font=("Berlin Sans FB",16))
