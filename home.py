@@ -3,6 +3,8 @@ from tkinter import ttk
 from PIL import Image,ImageTk
 from student import Student
 from train import Train
+from time import strftime
+from datetime import datetime
 import webbrowser as wb
 import cv2
 import mysql.connector
@@ -34,9 +36,10 @@ def draw_boundary(img):
     for (x,y,w,h) in features:
         id,predict = clf.predict(gray_img[y:y+h,x:x+h])
         confidence = int((100*(1-predict/300)))
-        if confidence>73:
+        if confidence>55:
             cv2.rectangle(img,(x,y),(x+w,y+h),(0,255,0),2)
             [stud_id,stud_name,stud_dep] = get_stud_data(id)
+            attendance(stud_id,stud_dep,stud_name)
             stud_name = "Name : " + stud_name
             stud_dep = "Department : " + stud_dep
             stud_id = "ID : " + str(stud_id)
@@ -51,6 +54,18 @@ def draw_boundary(img):
     return img
 
 
+def attendance(roll_no,dep,name):
+    with open("record.csv","r+",newline="\n") as f:
+        datalist=f.readlines()
+        roll_list=[]
+        for line in datalist:
+            val=line.split(",")
+            roll_list.append(val[0])
+        if(str(roll_no) not in roll_list):
+            curr=datetime.now()
+            curr_date=curr.strftime("%d/%m/%Y")
+            curr_time=curr.strftime("%H:%M:%S")
+            f.writelines(f"\n{roll_no},{name},{dep},{curr_time},{curr_date},present")
 
 class student_attendance_system:
 
