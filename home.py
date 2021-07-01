@@ -36,7 +36,7 @@ def draw_boundary(img):
     for (x,y,w,h) in features:
         id,predict = clf.predict(gray_img[y:y+h,x:x+h])
         confidence = int((100*(1-predict/300)))
-        if confidence>55:
+        if confidence>75:
             cv2.rectangle(img,(x,y),(x+w,y+h),(0,255,0),2)
             [stud_id,stud_name,stud_dep] = get_stud_data(id)
             attendance(stud_id,stud_dep,stud_name)
@@ -46,7 +46,7 @@ def draw_boundary(img):
             cv2.putText(img,stud_id,(x,y-55),cv2.FONT_HERSHEY_COMPLEX,0.8,(0,255,0),3)
             cv2.putText(img,stud_name,(x,y-30),cv2.FONT_HERSHEY_COMPLEX,0.8,(0,255,0),3)
             cv2.putText(img,stud_dep,(x,y-5),cv2.FONT_HERSHEY_COMPLEX,0.8,(0,255,0),3)
-            # print("NAME : ",stud_name,"CONFIDENCE : ",confidence)
+            print(stud_name,"CONFIDENCE : ",confidence)
         else:
             cv2.rectangle(img,(x,y),(x+w,y+h),(0,0,255),2)
             cv2.putText(img,"UKNOWN FACE",(x,y-5),cv2.FONT_HERSHEY_COMPLEX,0.8,(0,0,255),3)

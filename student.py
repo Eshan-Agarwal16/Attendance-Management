@@ -4,6 +4,14 @@ from PIL import Image, ImageTk
 from tkinter import messagebox
 import mysql.connector
 import cv2
+import webbrowser as wb
+
+def git_link(id):
+  if id:
+    wb.open("https://github.com/Eshan-Agarwal16")
+    return
+  wb.open("https://github.com/DhyeyThakkar27")
+  return
 
 def save_img(img,got_id,no_of_photo):
   img_name = "Data/user."+ str(got_id) + "." + str(no_of_photo) + ".jpg"
@@ -258,7 +266,14 @@ class Student:
     #fodder
     fodder_frame=Frame(background_frame, bg="#2ec4b6")
     fodder_frame.place(x=0,y=screen_height-160,width=screen_width,height=screen_height)
-  
+    fodder_heading = Label(fodder_frame,text = "Contributors",bg = "#2ec4b6",fg = "#cbf3f0",font = ("Berlin Sans FB",20))
+    fodder_heading.place(x = int(screen_width/2)-50,y=0)
+    eshan_text = Button(fodder_frame,text = "Eshan Agarwal\nCSE,SVNIT",command = lambda : git_link(1) ,cursor="hand2",bg = "#2ec4b6",relief = FLAT,fg = "#cbf3f0",font = ("Berlin Sans FB",16))
+    dhyey_text = Button(fodder_frame,text = "Dhyey Thakkar\nCSE,SVNIT",command = lambda : git_link(0),cursor="hand2",bg = "#2ec4b6",relief = FLAT,fg = "#cbf3f0",font = ("Berlin Sans FB",16))
+    e_place = int(screen_width/4)-50
+    d_place = 3*(int(screen_width/4)) - 50
+    eshan_text.place(x = e_place,y = 30)
+    dhyey_text.place(x = d_place,y = 30)
   #===========FUNCTION DECLARATION==============  
   def search_by_id(self,got_id):
     if got_id == "":
